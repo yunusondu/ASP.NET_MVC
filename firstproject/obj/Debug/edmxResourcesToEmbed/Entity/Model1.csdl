@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HalloModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TblBirim">
+    <Key>
+      <PropertyRef Name="BirimID" />
+    </Key>
+    <Property Name="BirimID" Type="Int32" Nullable="false" />
+    <Property Name="BirimAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="TblUrun" Relationship="Self.FK_TblUrun_TblBirim" FromRole="TblBirim" ToRole="TblUrun" />
+  </EntityType>
+  <EntityType Name="TblKullanıcı">
+    <Key>
+      <PropertyRef Name="KullanıciID" />
+    </Key>
+    <Property Name="KullanıciID" Type="Int32" Nullable="false" />
+    <Property Name="KullanıciAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="TblUrun" Relationship="Self.FK_TblUrun_TblKullanıcı" FromRole="TblKullanıcı" ToRole="TblUrun" />
+  </EntityType>
+  <EntityType Name="TblUrun">
+    <Key>
+      <PropertyRef Name="UrunID" />
+    </Key>
+    <Property Name="UrunID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UrunAdı" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="BirimID" Type="Int32" Nullable="false" />
+    <Property Name="UrunKayitTarih" Type="DateTime" Precision="3" />
+    <Property Name="KayitBilgisiID" Type="Int32" Nullable="false" />
+    <Property Name="UrunKodu" Type="Int32" Nullable="false" />
+    <Property Name="UrunGrubuID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="TblBirim" Relationship="Self.FK_TblUrun_TblBirim" FromRole="TblUrun" ToRole="TblBirim" />
+    <NavigationProperty Name="TblKullanıcı" Relationship="Self.FK_TblUrun_TblKullanıcı" FromRole="TblUrun" ToRole="TblKullanıcı" />
+    <NavigationProperty Name="TblUrunGrub" Relationship="Self.FK_TblUrun_TblUrunGrub" FromRole="TblUrun" ToRole="TblUrunGrub" />
+  </EntityType>
+  <EntityType Name="TblUrunGrub">
+    <Key>
+      <PropertyRef Name="UrunTurID" />
+    </Key>
+    <Property Name="UrunTurID" Type="Int32" Nullable="false" />
+    <Property Name="UrunTurAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="TblUrun" Relationship="Self.FK_TblUrun_TblUrunGrub" FromRole="TblUrunGrub" ToRole="TblUrun" />
+  </EntityType>
+  <Association Name="FK_TblUrun_TblBirim">
+    <End Role="TblBirim" Type="Self.TblBirim" Multiplicity="1" />
+    <End Role="TblUrun" Type="Self.TblUrun" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblBirim">
+        <PropertyRef Name="BirimID" />
+      </Principal>
+      <Dependent Role="TblUrun">
+        <PropertyRef Name="BirimID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TblUrun_TblKullanıcı">
+    <End Role="TblKullanıcı" Type="Self.TblKullanıcı" Multiplicity="1" />
+    <End Role="TblUrun" Type="Self.TblUrun" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblKullanıcı">
+        <PropertyRef Name="KullanıciID" />
+      </Principal>
+      <Dependent Role="TblUrun">
+        <PropertyRef Name="KayitBilgisiID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TblUrun_TblUrunGrub">
+    <End Role="TblUrunGrub" Type="Self.TblUrunGrub" Multiplicity="1" />
+    <End Role="TblUrun" Type="Self.TblUrun" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblUrunGrub">
+        <PropertyRef Name="UrunTurID" />
+      </Principal>
+      <Dependent Role="TblUrun">
+        <PropertyRef Name="UrunGrubuID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HalloEntities8" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="TblBirim" EntityType="Self.TblBirim" />
+    <EntitySet Name="TblKullanıcı" EntityType="Self.TblKullanıcı" />
+    <EntitySet Name="TblUrun" EntityType="Self.TblUrun" />
+    <EntitySet Name="TblUrunGrub" EntityType="Self.TblUrunGrub" />
+    <AssociationSet Name="FK_TblUrun_TblBirim" Association="Self.FK_TblUrun_TblBirim">
+      <End Role="TblBirim" EntitySet="TblBirim" />
+      <End Role="TblUrun" EntitySet="TblUrun" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TblUrun_TblKullanıcı" Association="Self.FK_TblUrun_TblKullanıcı">
+      <End Role="TblKullanıcı" EntitySet="TblKullanıcı" />
+      <End Role="TblUrun" EntitySet="TblUrun" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TblUrun_TblUrunGrub" Association="Self.FK_TblUrun_TblUrunGrub">
+      <End Role="TblUrunGrub" EntitySet="TblUrunGrub" />
+      <End Role="TblUrun" EntitySet="TblUrun" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

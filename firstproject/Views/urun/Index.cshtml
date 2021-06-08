@@ -1,0 +1,80 @@
+﻿@using firstproject.Entity
+
+
+@model List<TblUrun>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<form class="form-group" method="post" action="@Url.Action("UrunEkle", "urun")">
+    
+    <div>
+        <label>Ürün Adı</label>
+        <input type="text" class="form-control" name="UrunAdı" required="" />
+
+    </div>
+    <div>
+        <label>Ürün Grubu</label>
+
+        @*@Html.DropDownList(m=>m.UrunTurAdı,(List<SelectListItem>)ViewBag.dgr)*@
+        @*<input type="text" class="form-control" name="UrunGrubuID" required="" />*@
+    </div>
+    <div>
+        <label>Birim</label>
+        <input type="text" class="form-control" name="BirimID" required="" />
+    </div>
+    <div>
+        <label>ÜRÜN KODU</label>
+        <input type="text" class="form-control" name="UrunKodu" required="" />
+    </div>
+    <div>
+        <label>ÜRÜN KAYIT BİLGİSİ</label>
+        <input type="text" class="form-control" name="KayitBilgisiID" required="" />
+    </div>
+    <div>
+        <label>ÜRÜN KAYIT TARİHİ</label>
+        <input type="datetime" class="form-control" name="UrunKayitTarih" required="" />
+    </div> 
+    <div style="margin-top:20px">
+        <input type="submit" value="EKLE">
+    </div>
+
+
+</form>
+
+<table class="table table-bordered">
+        
+    <tr>
+        <th>Urun ID</th>
+        <th>Urun Grubu</th>
+        <th>Urun Adı</th>
+        <th>Birim</th>
+        <th>Kayıt Tarihi</th>
+        <th>Kayıt Bilgisi</th>
+        <th>Ürün Kodu</th>
+        <th>SİL</th>
+        <th>Güncelle</th>   
+        
+    </tr>
+    <tbody>
+        @foreach (var urn in Model)
+        {
+        <tr>
+            <td>@urn.UrunID</td>
+            <td>@urn.UrunGrubuID</td>
+            <td>@urn.UrunAdı</td>
+            <td>@urn.BirimID</td>
+            <td>@urn.UrunKayitTarih</td>
+            <td>@urn.KayitBilgisiID</td>
+            <td>@urn.UrunKodu</td>
+            <td><a href="/urun/SİL/@urn.UrunID" class="btn btn-danger">SİL</a></td>
+            <td><a class="btn btn-success">Güncelle</a></td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
